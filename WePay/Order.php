@@ -42,19 +42,21 @@ class Order extends BasicWePay
                     unset($options['openid']);
                 }
                 $url = parent::MCH_SERVICE_URL;
-                $this->pay_type = 'service';
+                $pay_type = 'service';
                 $result = $this->callPostApi($url, $options, false, 'MD5');
             } catch (Exception $e) {
                 $url = parent::MCH_BASE_URL.'/pay/unifiedorder';
-                $this->pay_type = 'mch';
+                $pay_type = 'mch';
                 $result = $this->callPostApi($url, $options, false, 'MD5');
             }
         }else{
             $url = parent::MCH_BASE_URL.'/pay/unifiedorder';
-            $this->pay_type = 'mch';
+            $pay_type = 'mch';
             $result = $this->callPostApi($url, $options, false, 'MD5');
         }
-        return $result;
+//        trace($this->pay_type);
+        return ['pay_type'=>$pay_type,'create'=>$result];
+//        return $result;
     }
 
     /**
@@ -88,7 +90,7 @@ class Order extends BasicWePay
      * @param string $prepayId 统一下单预支付码
      * @return array
      */
-    public function jsapiParams($prepayId)
+    public function jsapiParams($prepayId,$pay_type)
     {
         $option = [];
         $option["appId"] = $this->config->get('appid');
@@ -96,11 +98,12 @@ class Order extends BasicWePay
         $option["nonceStr"] = Tools::createNoncestr();
         $option["package"] = "prepay_id={$prepayId}";
         $option["signType"] = "MD5";
-        if($this->pay_type=='service'){
+        if($pay_type=='service'){
             $option['paySign'] = Tools::post(parent::MCH_SERVICE_SIGN_URL,json_encode($option,JSON_UNESCAPED_UNICODE));
         }else{
             $option["paySign"] = $this->getPaySign($option, 'MD5');
         }
+        trace($option['paySign']);
         $option['timestamp'] = $option['timeStamp'];
         return $option;
     }
@@ -132,7 +135,7 @@ class Order extends BasicWePay
      * @param string $prepayId 统一下单预支付码
      * @return array
      */
-    public function appParams($prepayId)
+    public function appParams($prepayId,$pay_type)
     {
         $data = [
             'appid'     => $this->config->get('appid'),
@@ -142,7 +145,7 @@ class Order extends BasicWePay
             'timestamp' => (string)time(),
             'noncestr'  => Tools::createNoncestr(),
         ];
-        if($this->pay_type=='service'){
+        if($pay_type=='service'){
             $data['sign'] = Tools::post(parent::MCH_SERVICE_SIGN_URL,json_encode($option,JSON_UNESCAPED_UNICODE));
         }else{
             $data['sign'] = $this->getPaySign($data, 'MD5');
