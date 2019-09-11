@@ -28,6 +28,9 @@ use WePay\TransfersBank;
 class Pay extends BasicWePay
 {
 
+    /** 支付模式：mch-普通商户支付、service-服务商支付 **/
+    public $pay_type = 'mch';
+    
     /**
      * 统一下单
      * @param array $options
@@ -38,7 +41,11 @@ class Pay extends BasicWePay
     public function createOrder(array $options,$type='mch')
     {
         $pay = new Order($this->config->get());
-        return $pay->create($options,$type);
+        $create = $pay->create($options,$type);
+        $this->pay_type = $create['pay_type'];
+        trace($this->pay_type);
+        return $create['create'];
+//        return $pay->create($options,$type);
     }
 
 
@@ -50,7 +57,7 @@ class Pay extends BasicWePay
     public function createParamsForJsApi($prepay_id)
     {
         $pay = new Order($this->config->get());
-        return $pay->jsapiParams($prepay_id);
+        return $pay->jsapiParams($prepay_id,$this->pay_type);
     }
 
     /**
@@ -61,7 +68,7 @@ class Pay extends BasicWePay
     public function createParamsForApp($prepay_id)
     {
         $pay = new Order($this->config->get());
-        return $pay->appParams($prepay_id);
+        return $pay->appParams($prepay_id,$this->pay_type);
     }
 
     /**
