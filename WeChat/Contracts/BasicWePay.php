@@ -30,8 +30,6 @@ class BasicWePay
     /** 服务商鉴定sign地址 **/
     const MCH_SERVICE_SIGN_URL = 'http://weixin.wepayer.com/getnotify';
 
-    /** 支付模式：mch-普通商户支付、service-服务商支付 **/
-    public $pay_type = 'mch';
     /**
      * 商户配置
      * @var DataArray
