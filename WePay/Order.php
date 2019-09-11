@@ -43,16 +43,18 @@ class Order extends BasicWePay
                 }
                 $url = parent::MCH_SERVICE_URL;
                 $this->pay_type = 'service';
+                $result = $this->callPostApi($url, $options, false, 'MD5');
             } catch (Exception $e) {
                 $url = parent::MCH_BASE_URL.'/pay/unifiedorder';
                 $this->pay_type = 'mch';
+                $result = $this->callPostApi($url, $options, false, 'MD5');
             }
         }else{
             $url = parent::MCH_BASE_URL.'/pay/unifiedorder';
             $this->pay_type = 'mch';
+            $result = $this->callPostApi($url, $options, false, 'MD5');
         }
-        $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-        return $this->callPostApi($url, $options, false, 'MD5');
+        return $result;
     }
 
     /**
