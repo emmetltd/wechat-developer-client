@@ -1,0 +1,35 @@
+{
+  "type": "library",
+  "name": "emmtltd/wechat-developer-client",
+  "homepage": "https://github.com/emmtltd/wechat-developer-client",
+  "description": "WeChat platform and WeChat payment development tools",
+  "license": "MIT",
+  "keywords": [
+    "WePay",
+    "AliPay",
+    "WeMini",
+    "WeChat",
+    "WeChatPay",
+    "WeCahtService"
+  ],
+  "require": {
+    "php": ">=5.4",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "ext-libxml": "*",
+    "ext-openssl": "*",
+    "ext-mbstring": "*",
+    "ext-simplexml": "*"
+  },
+  "autoload": {
+    "classmap": [
+      "We.php"
+    ],
+    "psr-4": {
+      "WePay\\": "WePay",
+      "WeMini\\": "WeMini",
+      "WeChat\\": "WeChat",
+      "AliPay\\": "AliPay"
+    }
+  }
+}
