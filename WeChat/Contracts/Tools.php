@@ -34,9 +34,9 @@ class Tools
      * @var array
      */
     public static $cache_callable = [
-        'set' => null, // 写入缓存
-        'get' => null, // 获取缓存
-        'del' => null, // 删除缓存
+        'set' => '\think\facade\Cache::set', // 写入缓存
+        'get' => '\think\facade\Cache::get', // 获取缓存
+        'del' => '\think\facade\Cache::rm', // 删除缓存
         'put' => null, // 写入文件
     ];
 
