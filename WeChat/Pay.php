@@ -35,10 +35,10 @@ class Pay extends BasicWePay
      * @throws Exceptions\LocalCacheException
      * @throws InvalidResponseException
      */
-    public function createOrder(array $options)
+    public function createOrder(array $options,$type='mch')
     {
         $pay = new Order($this->config->get());
-        return $pay->create($options);
+        return $pay->create($options,$type);
     }
 
 
