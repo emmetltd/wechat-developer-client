@@ -146,7 +146,7 @@ class Order extends BasicWePay
             'noncestr'  => Tools::createNoncestr(),
         ];
         if($pay_type=='service'){
-            $data['sign'] = Tools::post(parent::MCH_SERVICE_SIGN_URL,json_encode($option,JSON_UNESCAPED_UNICODE));
+            $data['sign'] = Tools::post(parent::MCH_SERVICE_SIGN_URL,json_encode($data,JSON_UNESCAPED_UNICODE));
         }else{
             $data['sign'] = $this->getPaySign($data, 'MD5');
         }
